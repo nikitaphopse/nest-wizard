@@ -1,0 +1,18 @@
+{
+  "name": "loan-wizard",
+  "version": "1.0.0",
+  "description": "Multi-step loan application wizard with NestJS backend and React frontend",
+  "scripts": {
+    "dev": "./start-dev.sh",
+    "start:backend": "cd api && npm run start:dev",
+    "start:frontend": "cd frontend && npm run dev",
+    "install:all": "cd api && npm install && cd ../frontend && npm install",
+    "build:backend": "cd api && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "test:backend": "cd api && npm run test",
+    "test:frontend": "cd frontend && npm run test"
+  },
+  "keywords": ["loan", "wizard", "nestjs", "react", "typescript"],
+  "author": "Your Name",
+  "license": "MIT"
+}
