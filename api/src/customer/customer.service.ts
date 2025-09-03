@@ -68,22 +68,29 @@ export class CustomerService {
     const { amount, terms } = customer.loanInfo;
     const {
       monthlySalary,
-      additionalIncome = 0,
-      mortgage = 0,
-      otherCredits = 0,
+      hasAdditionalIncome,
+      additionalIncome,
+      hasMortgage,
+      mortgage,
+      hasOtherCredits,
+      otherCredits,
     } = customer.financialInfo;
 
+    // Calculate net monthly income
+    const additionalIncomeAmount = hasAdditionalIncome ? (additionalIncome || 0) : 0;
+    const mortgageAmount = hasMortgage ? (mortgage || 0) : 0;
+    const otherCreditsAmount = hasOtherCredits ? (otherCredits || 0) : 0;
+
     // amortize otherCredits across terms
-    const monthlyOtherCredits = terms > 0 ? otherCredits / terms : 0;
+    const monthlyOtherCredits = terms > 0 ? otherCreditsAmount / terms : 0;
 
-    const disposablePerMonth =
-      monthlySalary + additionalIncome - mortgage - monthlyOtherCredits;
+    const netMonthlyIncome = monthlySalary + additionalIncomeAmount - mortgageAmount - monthlyOtherCredits;
 
-    const maxAffordableLoan = disposablePerMonth * terms * 0.5;
+    const maxAffordableLoan = netMonthlyIncome * terms * 0.5;
 
-    if (maxAffordableLoan <= amount) {
+    if (maxAffordableLoan < amount) {
       throw new BadRequestException(
-        `Loan amount too high. Max affordable loan: ${maxAffordableLoan}. Please reduce loan amount or restart.`
+        `Insufficient income. Your net monthly income (€${netMonthlyIncome.toFixed(2)}) is too low for this loan amount. Please reduce the loan amount or restart with a new person.`
       );
     }
 
