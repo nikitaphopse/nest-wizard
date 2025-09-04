@@ -74,19 +74,19 @@ npm run dev -> Frontend runs on http://localhost:5173
 ## Project structure
 
 api/ (NestJS backend)
-  ├─ src/customer/
-  │   ├─ customer.controller.ts
-  │   ├─ customer.service.ts
-  │   ├─ customer.repository.ts
-  │   ├─ dto/
-  │   ├─ customer.types.ts
-  ├─ data/customers.json
+├─ src/customer/
+│ ├─ customer.controller.ts
+│ ├─ customer.service.ts
+│ ├─ customer.repository.ts
+│ ├─ dto/
+│ ├─ customer.types.ts
+├─ data/customers.json
 
 frontend/ (React frontend)
-  ├─ src/
-  │   ├─ routes/ (TanStack Router pages)
-  │   ├─ components/
-  │   ├─ context/ (wizard state)
-  │   ├─ api/ (Axios client)
+├─ src/
+│ ├─ routes/ (TanStack Router pages)
+│ ├─ components/
+│ ├─ context/ (wizard state)
+│ ├─ api/ (Axios client)
 
 ---
