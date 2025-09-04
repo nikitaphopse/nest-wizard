@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import axios from 'axios'
 import { useWizardState } from '../states/wizard-state'
+import { API_ENDPOINTS } from '../config/api'
 
 const FinancialInfo = () => {
   const router = useRouter()
@@ -77,7 +78,7 @@ const FinancialInfo = () => {
         otherCredits: hasOtherCredits ? otherCreditsNum : undefined,
       }
 
-      await axios.patch(`http://localhost:3000/customer/${wizardData.uid}/financial-info`, financialData)
+      await axios.patch(API_ENDPOINTS.CUSTOMER.FINANCIAL_INFO(wizardData.uid), financialData)
 
       setWizardData({
         ...wizardData,

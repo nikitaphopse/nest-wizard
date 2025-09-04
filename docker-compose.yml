@@ -1,0 +1,36 @@
+services:
+  backend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: nest-wizard-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./api/data:/app/data
+    networks:
+      - nest-wizard-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nest-wizard-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - nest-wizard-network
+    restart: unless-stopped
+
+networks:
+  nest-wizard-network:
+    driver: bridge
+
+volumes:
+  data:

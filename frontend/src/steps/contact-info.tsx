@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import axios from 'axios'
 import { useWizardState } from '../states/wizard-state'
+import { API_ENDPOINTS } from '../config/api'
 
 const ContactInfo = () => {
   const router = useRouter()
@@ -50,7 +51,7 @@ const ContactInfo = () => {
         return
       }
 
-      await axios.patch(`http://localhost:3000/customer/${wizardData.uid}/contact-info`, {
+      await axios.patch(API_ENDPOINTS.CUSTOMER.CONTACT_INFO(wizardData.uid), {
         email,
         phone,
       })

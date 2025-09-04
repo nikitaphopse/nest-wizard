@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import axios from 'axios'
 import { useWizardState } from '../states/wizard-state'
+import { API_ENDPOINTS } from '../config/api'
 
 const Final = () => {
   const router = useRouter()
@@ -22,7 +23,7 @@ const Final = () => {
         return
       }
 
-      await axios.patch(`http://localhost:3000/customer/${wizardData.uid}/finalize`)
+      await axios.patch(API_ENDPOINTS.CUSTOMER.FINALIZE(wizardData.uid))
       
       alert('Application finalized successfully!')
       router.navigate({ to: '/' })

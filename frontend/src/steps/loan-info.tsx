@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import axios from 'axios'
 import { useWizardState } from '../states/wizard-state'
+import { API_ENDPOINTS } from '../config/api'
 
 const LoanInfo = () => {
   const router = useRouter()
@@ -74,7 +75,7 @@ const LoanInfo = () => {
         return
       }
 
-      await axios.patch(`http://localhost:3000/customer/${wizardData.uid}/loan-info`, {
+      await axios.patch(API_ENDPOINTS.CUSTOMER.LOAN_INFO(wizardData.uid), {
         amount: amountNum,
         upfront: upfrontNum,
         terms: termsNum,

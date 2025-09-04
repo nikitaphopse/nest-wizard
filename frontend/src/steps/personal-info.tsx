@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRouter } from '@tanstack/react-router'
 import axios from 'axios'
 import { useWizardState } from '../states/wizard-state'
+import { API_ENDPOINTS } from '../config/api'
 
 const PersonalInfo = () => {
     const router = useRouter()
@@ -20,7 +21,7 @@ const PersonalInfo = () => {
         setError(null)
         try {
             // POST to backend
-            const res = await axios.post('http://localhost:3000/customer/personal-info', {
+            const res = await axios.post(API_ENDPOINTS.CUSTOMER.PERSONAL_INFO, {
                 firstName,
                 lastName,
                 dateOfBirth,
