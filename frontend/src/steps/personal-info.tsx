@@ -55,7 +55,7 @@ const PersonalInfo = () => {
                         type="text"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        placeholder="John"
+                        placeholder="Name"
                     />
                 </label>
             </div>
@@ -67,7 +67,7 @@ const PersonalInfo = () => {
                         type="text"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
-                        placeholder="Doe"
+                        placeholder="Name"
                     />
                 </label>
             </div>

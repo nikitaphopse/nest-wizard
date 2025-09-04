@@ -13,6 +13,17 @@ export class CustomerService {
 
   constructor(private readonly customerRepository: CustomerRepository) { }
 
+  /**
+ * Saves the personal information of a customer.
+ * 
+ * If a `uid` is provided, updates the existing customer's personal info.
+ * If no `uid` is provided, creates a new customer with a generated UID.
+ * 
+ * @param {PersonalInfoDto} dto - The personal information data to save.
+ * @param {string} [uid] - Optional UID of the customer to update. If not provided, a new customer will be created.
+ * @returns {Promise<Customer>} The created or updated customer object.
+ * @throws {NotFoundException} If a `uid` is provided but no existing customer is found with that UID.
+ */
   async savePersonalInfo(dto: PersonalInfoDto, uid?: string): Promise<Customer> {
     let customer: Customer;
 
@@ -37,6 +48,14 @@ export class CustomerService {
     return customer;
   }
 
+  /**
+ * Updates the contact information of an existing customer.
+ * 
+ * @param {string} uid - The UID of the customer to update.
+ * @param {ContactInfoDto} dto - The contact information data to save.
+ * @returns {Promise<Customer>} The updated customer object.
+ * @throws {NotFoundException} If no customer is found with the provided UID.
+ */
   async saveContactInfo(uid: string, dto: ContactInfoDto): Promise<Customer> {
     const customer = await this.getCustomerById(uid);
     customer.contactInfo = dto;
@@ -51,6 +70,14 @@ export class CustomerService {
     return customer;
   }
 
+  /**
+ * Updates the loan information of an existing customer.
+ * 
+ * @param {string} uid - The UID of the customer to update.
+ * @param {LoanInfoDto} dto - The loan information data to save.
+ * @returns {Promise<Customer>} The updated customer object.
+ * @throws {NotFoundException} If no customer is found with the provided UID.
+ */
   async saveFinancialInfo(uid: string, dto: FinancialInfoDto): Promise<Customer> {
     const customer = await this.getCustomerById(uid);
     customer.financialInfo = dto;
@@ -58,6 +85,16 @@ export class CustomerService {
     return customer;
   }
 
+  /**
+ * Finalizes a customer's profile by verifying loan and financial information
+ * and checking if the loan amount is affordable based on net monthly income.
+ * 
+ * @param {string} id - The UID of the customer to finalize.
+ * @returns {Promise<Customer>} The finalized customer object.
+ * @throws {BadRequestException} If the customer is missing loan or financial information.
+ * @throws {BadRequestException} If the customer's net monthly income is insufficient for the requested loan amount.
+ * @throws {NotFoundException} If no customer is found with the provided UID.
+ */
   async finalize(id: string): Promise<Customer> {
     const customer = await this.getCustomerById(id);
 
@@ -106,10 +143,28 @@ export class CustomerService {
     return customer;
   }
 
+  /**
+ * Retrieves a single customer by their UID.
+ * 
+ * @param {string} uid - The UID of the customer to retrieve.
+ * @returns {Promise<Customer>} The customer object if found.
+ * @throws {NotFoundException} If no customer is found with the provided UID.
+ */
   async findAll(): Promise<Customer[]> {
     return this.customerRepository.load();
   }
 
+  /**
+ * Retrieves a customer by UID from the repository.
+ * 
+ * This is a private helper method used internally to fetch a customer and
+ * ensure they exist before performing updates or other operations.
+ * 
+ * @param {string} uid - The UID of the customer to retrieve.
+ * @returns {Promise<Customer>} The customer object if found.
+ * @throws {NotFoundException} If no customer is found with the provided UID.
+ * @private
+ */
   private async getCustomerById(uid: string): Promise<Customer> {
     const customer = await this.customerRepository.findById(uid);
     if (!customer) throw new NotFoundException('Customer not found');
